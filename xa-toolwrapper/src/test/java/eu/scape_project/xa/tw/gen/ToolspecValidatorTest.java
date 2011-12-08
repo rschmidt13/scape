@@ -83,7 +83,7 @@ public class ToolspecValidatorTest {
     }
 
 
-     /**
+    /**
      * Test of validate method, of class ToolspecValidator.
      */
     @Test
