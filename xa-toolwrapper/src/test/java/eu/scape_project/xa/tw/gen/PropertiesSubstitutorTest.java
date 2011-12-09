@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import eu.scape_project.xa.tw.Constants;
+import eu.scape_project.xa.tw.cli.ToolWrapperCLI;
 import eu.scape_project.xa.tw.conf.Configuration;
 
 /**
@@ -42,7 +43,7 @@ public class PropertiesSubstitutorTest {
     public void setUp() throws GeneratorException {
         Configuration ioc = new Configuration();
         ioc.setXmlConf(new File(Constants.DEFAULT_TOOLSPEC));
-        ioc.setProjConf(new File(Constants.DEFAULT_PROJECT_PROPERTIES));
+        ioc.setProjConf(ToolWrapperCLI.getDefaultPropertiesResourceFile());
         st = new PropertiesSubstitutor(ioc.getProjConf());
     }
 

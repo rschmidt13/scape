@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.scape_project.xa.tw.Constants;
+import eu.scape_project.xa.tw.cli.ToolWrapperCLI;
 import eu.scape_project.xa.tw.conf.Configuration;
 import eu.scape_project.xa.tw.toolspec.Toolspec;
 
@@ -49,7 +50,7 @@ public class ToolspecValidatorTest {
     @Before
     public void setUp() throws GeneratorException, URISyntaxException {
         toolspecs = new ArrayList<String>();
-        toolspecs.add(Constants.DEFAULT_TOOLSPEC);
+        toolspecs.add(ToolWrapperCLI.getDefaultPropertiesResourceFile().getAbsolutePath());
         // All tool specification instances from the examples directory
         // will be validated
         try {
@@ -69,7 +70,7 @@ public class ToolspecValidatorTest {
         try {
             Configuration ioc = new Configuration();
             ioc.setXmlConf(new File(Constants.DEFAULT_TOOLSPEC));
-            ioc.setProjConf(new File(Constants.DEFAULT_PROJECT_PROPERTIES));
+            ioc.setProjConf(ToolWrapperCLI.getDefaultPropertiesResourceFile());
             JAXBContext context;
             context = JAXBContext.newInstance("eu.scape_project.xa.tw.toolspec");
             Unmarshaller unmarshaller = context.createUnmarshaller();

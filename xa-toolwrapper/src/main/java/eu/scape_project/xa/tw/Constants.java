@@ -10,8 +10,8 @@ package eu.scape_project.xa.tw;
  *
  */
 public final class Constants {
-    /** Name of project */
-    public static final String PROJECT_NAME = "SCAPE Toolwrapper";
+    /** Default project properties file name */
+    public static final String RESOURCE_PACKAGE = "eu/scape_project/xa/tw/";
     /** Default project properties file name */
     public static final String DEFAULT_PROJECT_PROPERTIES = "toolwrapper.properties";
     /** Default toolspec xml file */

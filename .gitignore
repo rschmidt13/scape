@@ -22,6 +22,7 @@
 .settings
 .classpath
 .project
+.checkstyle
 bin
 
 # Netbeans Files #

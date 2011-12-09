@@ -17,6 +17,8 @@ package eu.scape_project.xa.tw.cli;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -49,61 +51,38 @@ import eu.scape_project.xa.tw.toolspec.Toolspec;
 import eu.scape_project.xa.tw.util.FileUtil;
 
 /**
- * Command line interface of the tool wrapper. This program generates a maven
- * project that can be used to deploy a soap/rest web service.
+ * Command line interface for the SCAPE toolwrapper.
+ * Generates a maven project that can be used to
+ * deploy a soap/rest web service.
  * 
+ * <p>The tool is invoked java -jar toolwrapper.jar [OPTIONS].</p>
+ * <p>Options are<br/>
+ * <ul>
+ * <li>{@code -h --help            Prints a usage message}</li>
+ * <li>{@code -d --default         Generates a default}</li>
+ * <li>{@code -p --print s         Print project setting properties to stdout}</li>
+ * <li>{@code -p --print t         Print default toolsec to stdout}</li>
+ * <li>{@code -q --quiet           Minimal output, default off}</li>
+ * <li>{@code -s --settings <FILE> Path to project settings Java properties file}</li>
+ * <li>{@code -t --toolspec <FILE> Path to tool specfication XML file}</li>
+ * <li>{@code -v --version         Print toolwrapper version}</li>
+ * </ul>
+ * </p>
+ *
  * @author shsdev https://github.com/shsdev
  * @version 0.3
  */
-public class ToolWrapper {
+public class ToolWrapperCLI {
 	// Logger instance
-	private static Logger logger = LoggerFactory.getLogger(ToolWrapper.class
+	private static Logger logger = LoggerFactory.getLogger(ToolWrapperCLI.class
 			.getName());
 	private static Configuration ioc = new Configuration(); // and the config
-
-	// Statics to set up command line arguments
-	private static final String HELP_FLG = "h";
-	private static final String HELP_OPT = "help";
-	private static final String HELP_OPT_DESC = "print this message.";
-	private static final String PROPERTIES_FLG = "pc";
-	private static final String PROPERTIES_OPT = "props";
-	private static final String PROPERTIES_OPT_ARG = "FILE";
-	private static final String PROPERTIES_OPT_DESC = "Path to file containing project properties.";
-	private static final String TOOLSPEC_FLG = "xc";
-	private static final String TOOLSPEC_OPT = "toolspec";
-	private static final String TOOLSPEC_OPT_ARG = "FILE";
-	private static final String TOOLSPEC_OPT_DESC = "Path to XML file containg a tool specification.";
-	private static final String GENERATE_DEFAULT_FLG = "df";
-	private static final String GENERATE_DEFAULT_OPT = "gendef";
-	private static final String GENERATE_DEFAULT_OPT_DESC = "Generate default simple copy project, overrides other options.";
-
-	// Static for command line option parsing
-	private static Options OPTIONS = new Options();
-	static {
-		// Option for help
-		OPTIONS.addOption(HELP_FLG, HELP_OPT, false, HELP_OPT_DESC);
-		// Add option for properties file path
-		OptionBuilder.hasArg();
-		OptionBuilder.withLongOpt(PROPERTIES_OPT);
-		OptionBuilder.withArgName(PROPERTIES_OPT_ARG);
-		OptionBuilder.withDescription(PROPERTIES_OPT_DESC);
-		OPTIONS.addOption(OptionBuilder.create(PROPERTIES_FLG));
-		// Add option for toolspec file path
-		OptionBuilder.hasArg();
-		OptionBuilder.withLongOpt(TOOLSPEC_OPT);
-		OptionBuilder.withArgName(TOOLSPEC_OPT_ARG);
-		OptionBuilder.withDescription(TOOLSPEC_OPT_DESC);
-		OPTIONS.addOption(OptionBuilder.create(TOOLSPEC_FLG));
-		// Add the default option
-		OptionBuilder.withLongOpt(GENERATE_DEFAULT_OPT);
-		OptionBuilder.withDescription(GENERATE_DEFAULT_OPT_DESC);
-		OPTIONS.addOption(OptionBuilder.create(GENERATE_DEFAULT_FLG));
-	}
+	private static final String SYNTAX = "java -jar toolwrapper.jar";
 
 	/**
 	 * Default constructor
 	 */
-	public ToolWrapper() {
+	public ToolWrapperCLI() {
 	}
 
 	/**
@@ -119,35 +98,38 @@ public class ToolWrapper {
 		CommandLineParser cmdParser = new PosixParser();
 		try {
 			// Parse the command line arguments
-			CommandLine cmd = cmdParser.parse(OPTIONS, args);
+			CommandLine cmd = cmdParser.parse(MyOptions.OPTIONS, args);
 			// If no args or help selected
-			if (cmd.getOptions().length == 0 | cmd.hasOption(HELP_OPT)) {
+			if (cmd.getOptions().length == 0 | cmd.hasOption(MyOptions.HELP_OPT)) {
 				// OK help needed
 				HelpFormatter formatter = new HelpFormatter();
-				formatter.printHelp(Constants.PROJECT_NAME, OPTIONS, true);
-
-				if (args.length == 0)
-					logger.info("Reading default configuration files from working "
-							+ "directory ...");
-				else
-					System.exit(0);
+				formatter.printHelp(SYNTAX, MyOptions.OPTIONS, true);
+				System.exit(0);
 			}
 
-			String toolspecPath = cmd.getOptionValue(TOOLSPEC_OPT,
+			if (cmd.hasOption(MyOptions.VERSION_OPT)) {
+				// Print version
+				HelpFormatter formatter = new HelpFormatter();
+				formatter.printHelp(SYNTAX, MyOptions.OPTIONS, true);
+				System.exit(0);
+			}
+
+			String toolspecPath = cmd.getOptionValue(MyOptions.TOOLSPEC_OPT,
 					Constants.DEFAULT_TOOLSPEC);
 			File toolspecFile = new File(toolspecPath);
-			String propertiesPath = cmd.getOptionValue(PROPERTIES_OPT,
-					Constants.DEFAULT_PROJECT_PROPERTIES);
-			File propertiesFile = new File(propertiesPath);
+			if (MyOptions.OPTIONS.hasOption(MyOptions.SETTINGS_OPT)) {
+				ioc.setProjConf(new File(cmd.getOptionValue(MyOptions.SETTINGS_OPT)));
+			} else {
+				ioc.setProjConf(getDefaultPropertiesResourceFile());
+			}
 			ioc.setXmlConf(toolspecFile);
-			ioc.setProjConf(propertiesFile);
 
 		} catch (ParseException excep) {
 			// Problem parsing the command line args, just print the message and
 			// help
 			logger.error("Problem parsing command line arguments.", excep);
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp(Constants.PROJECT_NAME, OPTIONS, true);
+			formatter.printHelp(SYNTAX, MyOptions.OPTIONS, true);
 			System.exit(1);
 		}
 
@@ -271,5 +253,82 @@ public class ToolWrapper {
 
 		logger.info("Project created in in \""
 				+ FileUtil.makePath(generatedDir, projDir) + "\"");
+	}
+
+	/**
+	 * @return the default properties resource file packaged with the jar
+	 */
+	public static File getDefaultPropertiesResourceFile() {
+		try {
+			return new File(ClassLoader.getSystemResource(Constants.RESOURCE_PACKAGE + Constants.DEFAULT_PROJECT_PROPERTIES).toURI());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			throw new IllegalStateException("Could not read packaged properties file.", e);
+		}
+	}
+	/**
+	 * Helper class that is used to set up the commons-cli options object.
+	 * 
+	 * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a>
+	 *	   <a href="http://sourceforge.net/users/carlwilson-bl">carlwilson-bl@SourceForge</a>
+	 *	   <a href="https://github.com/carlwilson-bl">carlwilson-bl@github</a>
+	 *
+	 */
+	private static final class MyOptions {
+ 		// Statics to set up command line arguments
+		private static final String HELP_FLG = "h";
+		private static final String HELP_OPT = "help";
+		private static final String HELP_OPT_DESC = "print this message.";
+		private static final String DEFAULT_FLG = "d";
+		private static final String DEFAULT_OPT = "def";
+		private static final String DEFAULT_OPT_DESC = "generate default simple copy project, overrides other options.";
+		private static final String PRINT_FLG = "p";
+		private static final String PRINT_OPT = "print";
+		private static final String PRINT_OPT_ARG = "OPT";
+		private static final String PRINT_OPT_DESC = "OPT t or no arg prints default toolspec to stdout. OPT t prints project settings to stdout.";
+		private static final String SETTINGS_FLG = "s";
+		private static final String SETTINGS_OPT = "settings";
+		private static final String SETTINGS_OPT_ARG = "FILE";
+		private static final String SETTINGS_OPT_DESC = "path to project settings Java properties file.";
+		private static final String TOOLSPEC_FLG = "t";
+		private static final String TOOLSPEC_OPT = "toolspec";
+		private static final String TOOLSPEC_OPT_ARG = "FILE";
+		private static final String TOOLSPEC_OPT_DESC = "path to tool specification XML file.";
+		private static final String VERSION_FLG = "v";
+		private static final String VERSION_OPT = "version";
+		private static final String VERSION_OPT_DESC = "print toolwrapper version.";
+
+		/**
+		 * Apache commons-cli options, used to set up and parse the command line args
+		 */
+		final static Options OPTIONS = new Options();
+		static {
+			// Option for help
+			OPTIONS.addOption(HELP_FLG, HELP_OPT, false, HELP_OPT_DESC);
+			// Add the default option
+			OptionBuilder.withLongOpt(DEFAULT_OPT);
+			OptionBuilder.withDescription(DEFAULT_OPT_DESC);
+			OPTIONS.addOption(OptionBuilder.create(DEFAULT_FLG));
+			// Add option for printing defaults
+			OptionBuilder.hasArg();
+			OptionBuilder.withLongOpt(PRINT_FLG);
+			OptionBuilder.withArgName(PRINT_OPT);
+			OptionBuilder.withDescription(PRINT_OPT_ARG);
+			OPTIONS.addOption(OptionBuilder.create(PRINT_OPT_DESC));
+			// Add option for settings file path
+			OptionBuilder.hasArg();
+			OptionBuilder.withLongOpt(SETTINGS_FLG);
+			OptionBuilder.withArgName(SETTINGS_OPT);
+			OptionBuilder.withDescription(SETTINGS_OPT_ARG);
+			OPTIONS.addOption(OptionBuilder.create(SETTINGS_OPT_DESC));
+			// Add option for toolspec file path
+			OptionBuilder.hasArg();
+			OptionBuilder.withLongOpt(TOOLSPEC_OPT);
+			OptionBuilder.withArgName(TOOLSPEC_OPT_ARG);
+			OptionBuilder.withDescription(TOOLSPEC_OPT_DESC);
+			OPTIONS.addOption(OptionBuilder.create(TOOLSPEC_FLG));
+			// Option for version
+			OPTIONS.addOption(VERSION_FLG, VERSION_OPT, false, VERSION_OPT_DESC);
+		}
 	}
 }

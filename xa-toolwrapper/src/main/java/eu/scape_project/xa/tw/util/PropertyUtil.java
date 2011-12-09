@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import eu.scape_project.xa.tw.cli.ToolWrapperCLI;
 import eu.scape_project.xa.tw.gen.GeneratorException;
 
 /**
@@ -40,7 +42,7 @@ public class PropertyUtil {
     public PropertyUtil(String propertiesFile) throws GeneratorException {
         try {
             properties = new Properties();
-            properties.load(new FileInputStream(propertiesFile));
+            properties.load(new FileInputStream(ToolWrapperCLI.getDefaultPropertiesResourceFile()));
             logger.debug("Property file \"" + propertiesFile + "\" loaded.");
         } catch (IOException ex) {
             throw new GeneratorException("Unable to load properties file!");
