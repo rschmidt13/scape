@@ -15,10 +15,13 @@
  */
 package eu.scape_project.xa.tw.gen;
 
-import eu.scape_project.xa.tw.util.PropertyUtil;
-import eu.scape_project.xa.tw.util.FileUtil;
+import eu.scape_project.core.utils.FileUtils;
+import eu.scape_project.xa.tw.util.ProjectProperties;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,40 +36,29 @@ import org.apache.velocity.VelocityContext;
 public class PropertiesSubstitutor extends Substitutor {
 
     private static Logger logger = LoggerFactory.getLogger(PropertiesSubstitutor.class.getName());
-    private PropertyUtil pu;
+    private ProjectProperties pu;
     private String templateDir;
     private String generateDir;
     private ServiceDef serviceDef;
-
-    /**
-     * Default constructor
-     */
-    public PropertiesSubstitutor() {
-    }
 
     /**
      * Reads the properties from the project configuration properties file
      * and creates the substitution variable map.
      * @throws GeneratorException
      */
-    public PropertiesSubstitutor(String propertiesAbsPath) throws GeneratorException {
+    public PropertiesSubstitutor() throws GeneratorException {
         super();
-        try {
-            pu = new PropertyUtil(propertiesAbsPath);
-        } catch (GeneratorException ex) {
-            throw new GeneratorException("Unable to load properties.");
-        }
+            pu = ProjectProperties.getInstance();
 
         templateDir = pu.getProp("project.template.dir");
         generateDir = pu.getProp("project.generate.dir");
 
         // Substitution variables
         Map<String, String> map = pu.getKeyValuePairs();
-        Set propertySet = map.entrySet();
-        for (Object o : propertySet) {
-            Map.Entry entry = (Map.Entry) o;
-            String key = (String) entry.getKey();
-            String val = (String) entry.getValue();
+        Set<Entry<String, String>> propertySet = map.entrySet();
+        for (Entry<String, String> entry : propertySet) {
+            String key = entry.getKey();
+            String val = entry.getValue();
             this.putKeyValuePair(key, val);
         }
     }
@@ -112,7 +104,7 @@ public class PropertiesSubstitutor extends Substitutor {
         String trgtFilePath = path.getPath();
         trgtFilePath = trgtFilePath.replace(pu.getProp("project.template.dir"), pu.getProp("project.generate.dir") + "/" + serviceDef.getDirectory());
         String trgtDirStr = trgtFilePath.substring(0, trgtFilePath.lastIndexOf(File.separator));
-        FileUtil.mkdirs(new File(trgtDirStr));
+        FileUtils.mkdirs(new File(trgtDirStr));
         //trgtFilePath = replaceVars(trgtFilePath);
         applySubstitution(path.getPath(), trgtFilePath);
     }
@@ -177,7 +169,7 @@ public class PropertiesSubstitutor extends Substitutor {
      * Getter for the property utils
      * @return property utils
      */
-    public PropertyUtil getPropertyUtils() {
+    public ProjectProperties getPropertyUtils() {
         return pu;
     }
     /**

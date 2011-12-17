@@ -16,8 +16,8 @@
 package ${global_package_name};
 
 import ${global_package_name}.proc.CommandLineProcess;
-import ${global_package_name}.util.FileUtils;
-import ${global_package_name}.util.StringUtils;
+import eu.scape_project.core.utils.FileUtils;
+import eu.scape_project.core.utils.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -29,7 +29,6 @@ import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.description.Parameter;
-import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -20,12 +20,13 @@ package eu.scape_project.xa.tw.gen;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import eu.scape_project.xa.tw.Constants;
-import eu.scape_project.xa.tw.cli.ToolWrapperCLI;
+import eu.scape_project.xa.tw.ToolWrapperCLI;
 import eu.scape_project.xa.tw.conf.Configuration;
 
 /**
@@ -40,11 +41,10 @@ public class PropertiesSubstitutorTest {
     }
 
     @Before
-    public void setUp() throws GeneratorException {
+    public void setUp() throws GeneratorException, FileNotFoundException {
         Configuration ioc = new Configuration();
         ioc.setXmlConf(new File(Constants.DEFAULT_TOOLSPEC));
-        ioc.setProjConf(ToolWrapperCLI.getDefaultPropertiesResourceFile());
-        st = new PropertiesSubstitutor(ioc.getProjConf());
+        st = new PropertiesSubstitutor();
     }
 
     /**

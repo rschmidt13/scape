@@ -17,7 +17,7 @@
 
 package eu.scape_project.xa.tw.gen;
 
-import eu.scape_project.xa.tw.util.PropertyUtil;
+import eu.scape_project.xa.tw.util.ProjectProperties;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -33,7 +33,7 @@ import static org.junit.Assert.*;
 public class SubstitutorTest {
 
     private PropertiesSubstitutor st = null;
-    private PropertyUtil pu = null;
+    private ProjectProperties pu = null;
 
     public SubstitutorTest() {
     }
@@ -49,7 +49,7 @@ public class SubstitutorTest {
     @Before
     public void setUp() {
         try {
-            st = new PropertiesSubstitutor("toolwrapper.properties");
+            st = new PropertiesSubstitutor();
             pu = st.getPropertyUtils();
         } catch (GeneratorException ex) {
             fail("Unable to create substitutor.");

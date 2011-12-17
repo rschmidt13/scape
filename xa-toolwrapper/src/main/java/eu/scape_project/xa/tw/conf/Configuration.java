@@ -16,8 +16,15 @@
 package eu.scape_project.xa.tw.conf;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import eu.scape_project.xa.tw.Constants;
+import eu.scape_project.xa.tw.ToolWrapperCLI;
 import eu.scape_project.xa.tw.gen.GeneratorException;
 
 /**
@@ -29,8 +36,8 @@ import eu.scape_project.xa.tw.gen.GeneratorException;
 public class Configuration {
 
     private static Logger logger = LoggerFactory.getLogger(Configuration.class.getName());
-    private String projConf;
-    private String xmlConf;
+    private File projConf = null;
+    private File xmlConf;
 
     /**
      * Default constructor
@@ -47,29 +54,7 @@ public class Configuration {
         if(this.projConf == null) {
             throw new GeneratorException("Project configuration file is not defined");
         }
-        return this.projConf;
-    }
-
-    /**
-     * @return the projConf
-     */
-    public String getProjConf() {
-        return this.projConf;
-    }
-
-    /**
-     * @param confFile a java.io.File which should be a file of project configuration properties.
-     * @throws GeneratorException 
-     */
-    public void setProjConf(File confFile) throws GeneratorException {
-	// Check args
-	if (confFile == null) throw new IllegalArgumentException("Project configuration file is null.");
-        if (confFile.canRead()) {
-            logger.info("Project configuration file: " + confFile.getName());
-        } else {
-            throw new GeneratorException("Unable to read project configuration properties file: " + confFile.getAbsolutePath());
-        }
-        this.projConf = confFile.getAbsolutePath();
+        return this.projConf.getAbsolutePath();
     }
 
     /**
@@ -84,7 +69,7 @@ public class Configuration {
         } else {
             throw new GeneratorException("Unable to read XML toolspec configuration file: " + toolspecFile.getAbsolutePath());
         }
-        this.xmlConf = toolspecFile.getAbsolutePath();
+        this.xmlConf = toolspecFile;
     }
 
     /**
@@ -98,13 +83,14 @@ public class Configuration {
      * @return true if toolspec co
      */
     public boolean hasConfig() {
-        return (this.hasXmlConf() && this.getProjConf() != null);
+        return (this.hasXmlConf() && this.projConf != null);
     }
 
     /**
      * @return the xmlConf
      */
     public String getXmlConf() {
-        return this.xmlConf;
+        return this.xmlConf.getAbsolutePath();
     }
+
 }

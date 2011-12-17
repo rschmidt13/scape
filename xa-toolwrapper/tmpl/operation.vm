@@ -1,6 +1,6 @@
     /**
      * Service operation
-     * @param inputUrl Input url
+     * @param input Input
      * @return Response message subtree
      */
     public OMElement ${operationname}(${parameters}) {
@@ -28,7 +28,7 @@
         String publicHttpAccessUrl = getValueOfServiceParameter("publicHttpAccessUrl");
 
         // Command pattern variables key value pairs
-        HashMap cliCmdKeyValPairs = new HashMap<String, String>();
+        HashMap<String, String> cliCmdKeyValPairs = new HashMap<String, String>();
 
 ${inputsection}
 
