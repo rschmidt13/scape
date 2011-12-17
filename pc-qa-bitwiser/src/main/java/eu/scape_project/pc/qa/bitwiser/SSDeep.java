@@ -278,8 +278,6 @@ public class SSDeep {
 	    return true;
 
 	  buffer = new byte[BUFFER_SIZE];
-	  if (buffer == null)
-	    return true;
 
 	  // snprintf(ctx.ret, 12, "%u:", ctx.block_size);
 	  ctx.ret = (ctx.block_size + ":").toCharArray();
@@ -330,8 +328,6 @@ public class SSDeep {
 	    return true;
 	  
 	  ctx = new ss_context();
-	  if (ctx == null)
-	    return true;
 
 	//  filepos = ftello(handle);
 
@@ -377,8 +373,6 @@ public class SSDeep {
 	    return true;
 
 	  File handle = new File(filename);//,"rb");
-	  if (null == handle)
-	    return true;
 
 	  status = fuzzy_hash_file(handle);
 	  
