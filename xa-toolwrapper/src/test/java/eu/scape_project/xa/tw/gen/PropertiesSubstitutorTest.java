@@ -19,15 +19,10 @@ package eu.scape_project.xa.tw.gen;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import eu.scape_project.xa.tw.Constants;
-import eu.scape_project.xa.tw.ToolWrapperCLI;
-import eu.scape_project.xa.tw.conf.Configuration;
 
 /**
  *
@@ -37,13 +32,13 @@ public class PropertiesSubstitutorTest {
 
     private PropertiesSubstitutor st;
 
-    public PropertiesSubstitutorTest() {
-    }
-
+    /**
+     * Sets up the tests, creates a new
+     * @throws GeneratorException
+     * @throws FileNotFoundException
+     */
     @Before
     public void setUp() throws GeneratorException, FileNotFoundException {
-        Configuration ioc = new Configuration();
-        ioc.setXmlConf(new File(Constants.DEFAULT_TOOLSPEC));
         st = new PropertiesSubstitutor();
     }
 
@@ -59,6 +54,7 @@ public class PropertiesSubstitutorTest {
 
     /**
      * Test of deriveVariables method, of class PropertiesSubstitutor.
+     * @throws Exception 
      */
     @Test
     public void testDeriveVariables() throws Exception {

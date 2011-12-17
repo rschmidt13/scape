@@ -21,7 +21,7 @@ package eu.scape_project.xa.tw.gen.types;
  * @version 0.3
  */
 public enum MsgType {
-
+	/** Request message type */
     REQUEST {
 
         @Override
@@ -29,6 +29,7 @@ public enum MsgType {
             return "Request";
         }
     },
+    /** Response message type */
     RESPONSE {
 
         @Override

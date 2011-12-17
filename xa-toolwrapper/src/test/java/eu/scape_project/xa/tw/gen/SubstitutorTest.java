@@ -17,14 +17,13 @@
 
 package eu.scape_project.xa.tw.gen;
 
-import eu.scape_project.xa.tw.util.ProjectProperties;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import eu.scape_project.xa.tw.util.ProjectProperties;
 
 /**
  *
@@ -35,17 +34,9 @@ public class SubstitutorTest {
     private PropertiesSubstitutor st = null;
     private ProjectProperties pu = null;
 
-    public SubstitutorTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
+    /**
+     * Test setup
+     */
     @Before
     public void setUp() {
         try {
@@ -54,10 +45,6 @@ public class SubstitutorTest {
         } catch (GeneratorException ex) {
             fail("Unable to create substitutor.");
         }
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**

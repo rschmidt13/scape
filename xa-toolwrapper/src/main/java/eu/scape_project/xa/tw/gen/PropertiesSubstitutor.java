@@ -15,18 +15,18 @@
  */
 package eu.scape_project.xa.tw.gen;
 
-import eu.scape_project.core.utils.FileUtils;
-import eu.scape_project.xa.tw.util.ProjectProperties;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.apache.velocity.VelocityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import eu.scape_project.core.utils.FileUtils;
+import eu.scape_project.xa.tw.util.ProjectProperties;
 import eu.scape_project.xa.tw.util.StringConverterUtil;
-import org.apache.velocity.VelocityContext;
 
 /**
  * PropertiesSubstitutor

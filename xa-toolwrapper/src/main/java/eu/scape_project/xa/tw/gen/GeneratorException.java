@@ -24,11 +24,19 @@ import org.slf4j.LoggerFactory;
  * @version 0.3
  */
 public class GeneratorException extends Exception {
-    private static Logger logger = LoggerFactory.getLogger(GeneratorException.class.getName());
+	private static final long serialVersionUID = -562884182271948076L;
+	private static Logger logger = LoggerFactory.getLogger(GeneratorException.class.getName());
 
+    /**
+     * Default constructor
+     */
     public GeneratorException() {
+    	super();
     }
 
+    /**
+     * @param message Message for the exception.
+     */
     public GeneratorException(String message) {
         super(message);
         logger.error(message);

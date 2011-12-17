@@ -45,7 +45,12 @@ public final class StringUtils {
     }
 
 
-    public static String getFilenameFromURIString(String fullURI, boolean preserveExtension) {
+    /**
+     * @param fullURI URI as string to parse the file name from
+     * @param preserveExtension
+     * @return the file name parsed from the URI string.
+     */
+    public final static String getFilenameFromURIString(String fullURI, boolean preserveExtension) {
         int slashIndex = fullURI.lastIndexOf('/');
         int dotIndex = fullURI.lastIndexOf('.');
         String filenameWithoutExtension = null;

@@ -16,15 +16,10 @@
 package eu.scape_project.xa.tw.conf;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.scape_project.xa.tw.Constants;
-import eu.scape_project.xa.tw.ToolWrapperCLI;
 import eu.scape_project.xa.tw.gen.GeneratorException;
 
 /**

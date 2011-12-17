@@ -24,6 +24,7 @@ package eu.scape_project.xa.tw.gen.types;
  */
 public enum IOType {
 
+	/** Type for an Input */
     INPUT {
 
         @Override
@@ -31,6 +32,7 @@ public enum IOType {
             return "input";
         }
     },
+    /** Type for output */
     OUTPUT {
 
         @Override

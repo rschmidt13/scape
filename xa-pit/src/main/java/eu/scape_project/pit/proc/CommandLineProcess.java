@@ -101,7 +101,7 @@ public class CommandLineProcess {
      * @param sh
      *         invoke the shell with the command line as the parameter
      */
-    public CommandLineProcess(String pattern, HashMap paramValuePairs, boolean sh) {
+    public CommandLineProcess(String pattern, HashMap<String, String> paramValuePairs, boolean sh) {
         this();
         this.sh = sh;
         this.pattern = pattern;

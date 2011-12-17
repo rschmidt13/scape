@@ -64,17 +64,20 @@ public class DeploymentCreator {
     private String defaultDeplWsdlFile;
     private String defaultWsdlFile;
 
+    /**
+     * @param pomAbsPath
+     * @param service
+     * @param st
+     */
     public DeploymentCreator(String pomAbsPath, Service service, PropertiesSubstitutor st) {
         this.pomAbsPath = pomAbsPath;
         this.service = service;
         this.st = st;
     }
 
-    public DeploymentCreator() {
-    }
-
     /**
      * Insert data types
+     * @throws GeneratorException 
      */
     public void createPom() throws GeneratorException {
         File wsdlTemplate = new File(this.pomAbsPath);
@@ -97,9 +100,6 @@ public class DeploymentCreator {
             for (Deployref dk : dks) {
                 boolean isDefaultDeployment = dk.isDefault();
                 Deployment d = (Deployment) dk.getRef();
-
-                String host = d.getHost();
-                String id = d.getId();
 
                 //<profile>
                 //    <id>deployment1</id>

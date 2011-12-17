@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.scape_project.xa.tw.Constants;
-import eu.scape_project.xa.tw.ToolWrapperCLI;
 import eu.scape_project.xa.tw.conf.Configuration;
 import eu.scape_project.xa.tw.toolspec.Toolspec;
 
@@ -44,9 +43,12 @@ public class ToolspecValidatorTest {
 
     private static Logger logger = LoggerFactory.getLogger(ToolspecValidatorTest.class.getName());
 
-    public ToolspecValidatorTest() {
-    }
-
+    /**
+     * Setup method, loads up array of test toolspecs.
+     * 
+     * @throws GeneratorException
+     * @throws URISyntaxException
+     */
     @Before
     public void setUp() throws GeneratorException, URISyntaxException {
         toolspecs = new ArrayList<String>();
@@ -85,6 +87,7 @@ public class ToolspecValidatorTest {
 
     /**
      * Test of validate method, of class ToolspecValidator.
+     * @throws Exception 
      */
     @Test
     public void testValidate() throws Exception {

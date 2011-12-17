@@ -31,7 +31,13 @@ import java.util.Properties;
 import eu.scape_project.xa.tw.Constants;
 
 /**
- * PropertyUtils
+ * Singleton class wrapping the properties for the toolwrapper. These are initially loaded from a default properties
+ * file, see the getInstance() method for location.
+ * 
+ * The class is not immutable, calling getInstance(java.io.InputStream) reloads the properties from the stream contents.
+ * 
+ * TODO:The properties need dividing into two parts, the constants, and those that can be overridden by values supplied
+ * by the user in a custom properties file.
  * 
  * @author shsdev https://github.com/shsdev
  * @version 0.3
@@ -61,13 +67,17 @@ public class ProjectProperties {
 	}
 
 	/**
-	 * @return
-	 * @throws IOException
+	 * Factory method that returns the properties instance. If the static properties map is null then the defaults are
+	 * loaded by invoking the stream constructor. If the map is not null the current instance is returned.
+	 * 
+	 * @return the instance of the properties object.
+	 * @throws IllegalStateException
+	 *         if the default properties file cannot be read
 	 */
 	static public ProjectProperties getInstance() {
 		if (MAP == null)
 			try {
-				MAP = getPropertyStreamAsMap(ClassLoader
+				return getInstance(ClassLoader
 						.getSystemResourceAsStream(Constants.RESOURCE_PACKAGE
 								+ Constants.DEFAULT_PROJECT_PROPERTIES));
 			} catch (IOException e) {
@@ -76,15 +86,32 @@ public class ProjectProperties {
 			}
 		return INSTANCE;
 	}
-	
-	static public ProjectProperties getInstance(InputStream is) throws IOException {
+
+	/**
+	 * Static factory method that loads the properties from the param stream and returns the properties instance.
+	 * 
+	 * @param is an input stream to a properties set
+	 * @return the ProjectProperties instance
+	 * @throws IOException when the passed property stream cannot be read.
+	 */
+	static public ProjectProperties getInstance(InputStream is)
+			throws IOException {
 		if (is == null)
 			throw new IllegalArgumentException("Input stream cannot be null");
-		MAP =  getPropertyStreamAsMap(is);
+		MAP = getPropertyStreamAsMap(is);
 		return INSTANCE;
 	}
-	
-	static public ProjectProperties getInstance(File file) throws FileNotFoundException, IOException {
+
+	/**
+	 * Static factory method that loads the properties from the File param.
+	 * 
+	 * @param file a Java properties from which the properties will be loaded. 
+	 * @return the instance re-initialised from the file
+	 * @throws FileNotFoundException if the passed properties file cannot be found
+	 * @throws IOException if there are problems reading the file.
+	 */
+	static public ProjectProperties getInstance(File file)
+			throws FileNotFoundException, IOException {
 		return getInstance(new FileInputStream(file));
 	}
 

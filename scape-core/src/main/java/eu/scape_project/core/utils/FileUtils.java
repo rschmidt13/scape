@@ -35,9 +35,9 @@ import java.net.URLConnection;
  */
 public final class FileUtils {
 
+    /** Java Temporary directory, the value of system property java.io.tmpdir at initialisation. */
     public static final String JAVA_TMP = System.getProperty("java.io.tmpdir");
     private static final String TMP_DIR = "gwg-tmp-store";
-    private static final int BUFF = 32768;
 
     /**
      * Empty private constructor avoids instantiation.
@@ -114,7 +114,9 @@ public final class FileUtils {
     /**
      * Read file of URL into file.
      * @param url URL where the input file is located
+     * @param ext the files extension
      * @return Result file
+     * @throws IOException if the file cannot be read
      */
     public static File urlToFile(URL url, String ext) throws IOException {
         File fOut = null;
@@ -130,6 +132,10 @@ public final class FileUtils {
         return fOut;
     }
 
+    /**
+     * @param inputUrl URL from which to parse the file name.
+     * @return the parsed file name.
+     */
     public static String getFileNameFromUrl(URL inputUrl) {
         String urlStr = inputUrl.toString();
         String fileName = urlStr.substring(urlStr.lastIndexOf("/")+1);
@@ -535,7 +541,11 @@ public final class FileUtils {
         }
     }
 
-    public static String makePath(String... parts) {
+    /**
+     * @param parts a number of string arguments to concatenate with the path separator
+     * @return the created path string
+     */
+    public final static String makePath(String... parts) {
         StringBuilder sb = new StringBuilder();
         for (String part : parts) {
             if (part != null) {
