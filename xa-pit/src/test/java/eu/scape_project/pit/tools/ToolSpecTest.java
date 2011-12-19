@@ -21,11 +21,11 @@ import eu.scape_project.pit.tools.ToolSpec;
  *
  */
 public class ToolSpecTest {
-	
-	private static final String KAKADU_SPEC = "/toolspecs/kakadu.ptspec.xml";
-	private static final String JASPER_SPEC = "/toolspecs/jasper.ptspec";
-	private static final String JHOVE2_SPEC = "/toolspecs/jhove2.ptspec";
-	private static final String ISOBUSTER_SPEC = "/toolspecs/isobuster.ptspec";
+	private static final String TOOLSPEC_ROOT = "/toolspecs";
+	private static final String KAKADU_SPEC = TOOLSPEC_ROOT + "/kakadu.ptspec.xml";
+	private static final String JASPER_SPEC = TOOLSPEC_ROOT + "/jasper.ptspec";
+	private static final String JHOVE2_SPEC = TOOLSPEC_ROOT + "/jhove2.ptspec";
+	private static final String ISOBUSTER_SPEC = TOOLSPEC_ROOT + "/isobuster.ptspec";
 
 	/**
 	 * @throws java.lang.Exception

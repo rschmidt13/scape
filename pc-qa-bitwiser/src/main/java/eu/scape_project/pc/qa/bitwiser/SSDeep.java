@@ -660,7 +660,7 @@ public class SSDeep {
 		byte[] b3 = "Helli".getBytes();
 		char[] h1 = null;
 		boolean t1 = ssd.fuzzy_hash_buf(b2, b2.length, h1);
-		System.out.println("Got "+h1);
+		System.out.println("Got "+ String.valueOf(h1));
 		ssd.fuzzy_hash_file(new File("test"));
 		//ssd.fuzzy_hash_file(new File("pom.xml"));
 	}

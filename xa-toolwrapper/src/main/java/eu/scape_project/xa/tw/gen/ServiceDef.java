@@ -29,6 +29,7 @@ public class ServiceDef {
     private String directory;
 
     private ServiceDef() {
+    	/** Intentionally blank to prevent instantiation */
     }
 
     /**

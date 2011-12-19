@@ -69,6 +69,10 @@ public class ToolspecValidator {
         valid = true;
     }
 
+    /**
+     * Validates the toolspec against the xsd schema
+     * @throws GeneratorException
+     */
     public void validateWithXMLSchema() throws GeneratorException {
         try {
             // create a factory that understands namespaces and validates the XML input
@@ -101,6 +105,10 @@ public class ToolspecValidator {
         }
     }
 
+    /**
+     * Validate the services from the toolspec
+     * @throws GeneratorException
+     */
     public void validate() throws GeneratorException {
         if (toolspec == null) {
             throw new GeneratorException("Tool specification is not available");
@@ -152,6 +160,10 @@ public class ToolspecValidator {
         }
     }
 
+    /**
+     * TODO: Better documentation Some kind of consistency check? not sure what this method does....
+     * @throws GeneratorException
+     */
     public void checkpoint() throws GeneratorException {
         if (this.errors != null && this.errors.size() > 0) {
             for (Error err : errors) {

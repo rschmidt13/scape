@@ -60,21 +60,46 @@ public class StringConverterUtil {
     }
 
 
+    /**
+     * Converts package names to paths by replacing all periods, ".", with a forward slash.
+     * @param pn the package name as a string
+     * @return the package name as a path
+     */
     public static String packageNameToPackagePath(String pn) {
         String pp = pn.replaceAll("\\.", "/");
         return pp;
     }
 
+    /**
+     * Converts between underscored variable names VAR_NAME and property forms, VAR.NAME.
+     * Periods are not allowed in Java variable names.
+     * 
+     * @param var a variable name to be converted
+     * @return the property name for the variable
+     */
     public static String varToProp(String var) {
         String prop = var.replaceAll("_", ".");
         return prop;
     }
 
+    /**
+     * Converts between period separated property names and underscore separated variable names,
+     * i.e. VAR.NAME becomes VAR_NAME
+     * Periods are not allowed in Java variable names.
+	 *
+     * @param var the property name to convert
+     * @return the converted variable name
+     */
     public static String propToVar(String var) {
         String prop = var.replaceAll("\\.", "_");
         return prop;
     }
 
+    /**
+     * Converts a type name to a file name, replaces all colons with an underscore.
+     * @param var the type name to convert
+     * @return the file name
+     */
     public static String typeToFilename(String var) {
         String ret = var.replaceAll(":", "_").toLowerCase();
         return ret;

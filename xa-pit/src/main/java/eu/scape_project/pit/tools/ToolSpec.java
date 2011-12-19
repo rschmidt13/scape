@@ -82,7 +82,7 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return
+	 * @return the tool
 	 */
 	public Tool getTool() {
 		return tool;

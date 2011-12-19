@@ -63,10 +63,19 @@ public class PropertiesSubstitutor extends Substitutor {
         }
     }
 
+    /**
+     * Adds a variable to the substituter, a key value string pair
+     * @param key the string key (name) for the variable 
+     * @param val the value to associate with the key
+     */
     public void addVariable(String key, String val) {
         this.putKeyValuePair(key, val);
     }
 
+    /**
+     * Derives the substiution variables from the velocity context.
+     * @throws GeneratorException
+     */
     public void deriveVariables() throws GeneratorException {
         if(serviceDef == null) {
             throw new GeneratorException("Service definition missing, unable "

@@ -65,9 +65,10 @@ public class ServiceCodeCreator {
     }
 
     /**
-     * Constructor
+     * Private constructor
      */
     private ServiceCodeCreator() {
+    	/** Intentionally blank */
     }
 
     /**

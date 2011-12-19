@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.OutputStream;
 import java.net.URI;
 
-import eu.scape_project.pit.invoke.In.Type;
-
 /**
  * @author Andrew Jackson <Andrew.Jackson@bl.uk>
  *

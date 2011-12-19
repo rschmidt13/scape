@@ -5,7 +5,6 @@ package eu.scape_project.pit.invoke;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import eu.scape_project.pit.tools.Action;
 import eu.scape_project.pit.tools.ToolSpec;
