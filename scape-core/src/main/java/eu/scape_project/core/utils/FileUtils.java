@@ -16,15 +16,16 @@
  *  under the License.
  */
 
-package eu.scape_project.xa.tw.util;
+package eu.scape_project.core.utils;
 
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * These are generic file utilities used by the client and service.
@@ -32,17 +33,16 @@ import org.slf4j.LoggerFactory;
  * @author shsdev https://github.com/shsdev
  * @version 0.3
  */
-public final class FileUtil {
+public final class FileUtils {
 
+    /** Java Temporary directory, the value of system property java.io.tmpdir at initialisation. */
     public static final String JAVA_TMP = System.getProperty("java.io.tmpdir");
     private static final String TMP_DIR = "gwg-tmp-store";
-    private static final int BUFF = 32768;
-    private static Logger logger = LoggerFactory.getLogger(FileUtil.class.getName());
 
     /**
      * Empty private constructor avoids instantiation.
      */
-    private FileUtil() {
+    private FileUtils() {
     }
 
     /**
@@ -67,7 +67,7 @@ public final class FileUtil {
         String nameToUse = name == null ? "tmp" : name;
         File input = null;
         try {
-            File folder = new File(JAVA_TMP, FileUtil.TMP_DIR);
+            File folder = new File(JAVA_TMP, FileUtils.TMP_DIR);
             if (!folder.exists()) {
                 boolean mkdirs = folder.mkdirs();
                 checkCreation(folder, mkdirs);
@@ -109,6 +109,37 @@ public final class FileUtil {
             close(fos);
         }
         return input;
+    }
+
+    /**
+     * Read file of URL into file.
+     * @param url URL where the input file is located
+     * @param ext the files extension
+     * @return Result file
+     * @throws IOException if the file cannot be read
+     */
+    public static File urlToFile(URL url, String ext) throws IOException {
+        File fOut = null;
+        
+        fOut = getTmpFile("fromurl", "."+ext);
+
+        URLConnection uc = url.openConnection();
+        InputStream in = uc.getInputStream();
+        org.apache.commons.io.FileUtils.copyInputStreamToFile(in, fOut);
+
+        in.close();
+       
+        return fOut;
+    }
+
+    /**
+     * @param inputUrl URL from which to parse the file name.
+     * @return the parsed file name.
+     */
+    public static String getFileNameFromUrl(URL inputUrl) {
+        String urlStr = inputUrl.toString();
+        String fileName = urlStr.substring(urlStr.lastIndexOf("/")+1);
+        return fileName;
     }
 
     /**
@@ -168,7 +199,6 @@ public final class FileUtil {
      * @param mkdirs The result of creating the file
      */
     private static void checkCreation(final File folder, final boolean mkdirs) {
-        logger.info(String.format("Created folder '%s': %s", folder, mkdirs));
         if (!folder.exists()) {
             throw new IllegalArgumentException(String.format(
                     "Could not create '%s'", folder));
@@ -330,8 +360,6 @@ public final class FileUtil {
                 boolean deleteTempFiles = deleteTempFiles(current);
                 if (!deleteTempFiles) {
                     return false;
-                } else {
-                    logger.info("Deleted: " + current);
                 }
             }
             return workFolder.delete() ? true : false;
@@ -513,7 +541,11 @@ public final class FileUtil {
         }
     }
 
-    public static String makePath(String... parts) {
+    /**
+     * @param parts a number of string arguments to concatenate with the path separator
+     * @return the created path string
+     */
+    public final static String makePath(String... parts) {
         StringBuilder sb = new StringBuilder();
         for (String part : parts) {
             if (part != null) {

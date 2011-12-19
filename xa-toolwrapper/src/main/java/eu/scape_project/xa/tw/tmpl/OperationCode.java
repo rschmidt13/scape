@@ -44,6 +44,11 @@ public class OperationCode extends Code {
 
     private ArrayList<String> resultElements;
 
+    /**
+     * @param filePath
+     * @param opid
+     * @throws IOException
+     */
     public OperationCode(String filePath, int opid) throws IOException {
         super(filePath);
         parameters = new ArrayList<String>();
@@ -56,7 +61,7 @@ public class OperationCode extends Code {
 
 
     /**
-     * @param operationSnippet the operationSnippets to add
+     * @param resultElement the operationSnippets to add
      */
     public void addResultElement(String resultElement) {
         resultElements.add(resultElement);
@@ -70,7 +75,7 @@ public class OperationCode extends Code {
     }
 
     /**
-     * @param operationSnippet the operationSnippets to add
+     * @param outFileItem the operationSnippets to add
      */
     public void addOutFileItem(String outFileItem) {
         outFileItems.add(outFileItem);
@@ -93,7 +98,7 @@ public class OperationCode extends Code {
     }
 
     /**
-     * @param operationSnippet the operationSnippets to add
+     * @param parameter the operationSnippets to add
      */
     public void addParameter(String parameter) {
         parameters.add(parameter);
@@ -120,6 +125,9 @@ public class OperationCode extends Code {
         return parameters;
     }
 
+    /**
+     * @return params list as a string.
+     */
     public String getParametersCsList() {
         logger.debug(parameters.size() + " parameters in parameter list of "
                 + "operation \""+this.operationName + "\"");
@@ -150,10 +158,16 @@ public class OperationCode extends Code {
         this.opid = opid;
     }
 
+    /**
+     * @param code
+     */
     public void appendInputSection(String code) {
         inputSection.append(code);
     }
 
+    /**
+     * @param code
+     */
     public void appendOutputSection(String code) {
         outputSection.append(code);
     }

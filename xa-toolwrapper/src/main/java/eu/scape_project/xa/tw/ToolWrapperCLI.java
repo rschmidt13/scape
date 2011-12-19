@@ -13,12 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package eu.scape_project.xa.tw.cli;
+package eu.scape_project.xa.tw;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -35,7 +34,7 @@ import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import eu.scape_project.xa.tw.Constants;
+import eu.scape_project.core.utils.FileUtils;
 import eu.scape_project.xa.tw.conf.Configuration;
 import eu.scape_project.xa.tw.gen.DeploymentCreator;
 import eu.scape_project.xa.tw.gen.GeneratorException;
@@ -48,7 +47,7 @@ import eu.scape_project.xa.tw.tmpl.ServiceXml;
 import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Service;
 import eu.scape_project.xa.tw.toolspec.Toolspec;
-import eu.scape_project.xa.tw.util.FileUtil;
+import eu.scape_project.xa.tw.util.ProjectProperties;
 
 /**
  * Command line interface for the SCAPE toolwrapper.
@@ -99,6 +98,24 @@ public class ToolWrapperCLI {
 		try {
 			// Parse the command line arguments
 			CommandLine cmd = cmdParser.parse(MyOptions.OPTIONS, args);
+
+			// Load up the default project properties
+			ProjectProperties properties = ProjectProperties.getInstance();
+			// Override with values from user supplied if desired
+			if (cmd.hasOption(MyOptions.SETTINGS_OPT)) {
+				File propsFile = new File(cmd.getOptionValue(MyOptions.SETTINGS_OPT));
+				if (propsFile.isFile() && propsFile.canRead())
+					try {
+						properties = ProjectProperties.getInstance(propsFile);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+
 			// If no args or help selected
 			if (cmd.getOptions().length == 0 | cmd.hasOption(MyOptions.HELP_OPT)) {
 				// OK help needed
@@ -117,11 +134,6 @@ public class ToolWrapperCLI {
 			String toolspecPath = cmd.getOptionValue(MyOptions.TOOLSPEC_OPT,
 					Constants.DEFAULT_TOOLSPEC);
 			File toolspecFile = new File(toolspecPath);
-			if (MyOptions.OPTIONS.hasOption(MyOptions.SETTINGS_OPT)) {
-				ioc.setProjConf(new File(cmd.getOptionValue(MyOptions.SETTINGS_OPT)));
-			} else {
-				ioc.setProjConf(getDefaultPropertiesResourceFile());
-			}
 			ioc.setXmlConf(toolspecFile);
 
 		} catch (ParseException excep) {
@@ -133,9 +145,6 @@ public class ToolWrapperCLI {
 			System.exit(1);
 		}
 
-		if (!ioc.hasConfig()) {
-			throw new GeneratorException("No configuration available.");
-		}
 		JAXBContext context;
 		try {
 			context = JAXBContext
@@ -182,7 +191,7 @@ public class ToolWrapperCLI {
 		logger.info("Service name: " + service.getName());
 		logger.info("Service type: " + service.getType());
 		// Properties substitutor is created for each service
-		PropertiesSubstitutor st = new PropertiesSubstitutor(ioc.getProjConf());
+		PropertiesSubstitutor st = new PropertiesSubstitutor();
 		// Service name is composed of Service Name and Tool Version
 		ServiceDef sdef = new ServiceDef(service.getName(), toolVersion);
 		st.setServiceDef(sdef);
@@ -200,11 +209,11 @@ public class ToolWrapperCLI {
 		String projDir = st.getProjectDirectory();
 
 		// target service wsdl
-		String wsdlSourcePath = FileUtil.makePath("tmpl") + "Template.wsdl";
+		String wsdlSourcePath = FileUtils.makePath("tmpl") + "Template.wsdl";
 		logger.debug("Source WSDL file: " + wsdlSourcePath);
 
 		// target service wsdl
-		String wsdlTargetPath = FileUtil.makePath(generatedDir, projDir, "src",
+		String wsdlTargetPath = FileUtils.makePath(generatedDir, projDir, "src",
 				"main", "webapp") + projMidfix + ".wsdl";
 		logger.debug("Target WSDL file: " + wsdlTargetPath);
 
@@ -216,7 +225,7 @@ public class ToolWrapperCLI {
 		st.processFile(new File(wsdlTargetPath));
 
 		// service code
-		String sjf = FileUtil.makePath(generatedDir, projDir, "src", "main",
+		String sjf = FileUtils.makePath(generatedDir, projDir, "src", "main",
 				"java", st.getProjectPackagePath()) + projMidfix + ".java";
 		logger.debug("Initialising service file: " + sjf);
 		String serviceTmpl = st.getProp("project.template.service");
@@ -234,7 +243,7 @@ public class ToolWrapperCLI {
 		sc.put(st.getContext());
 		sc.put("operations", sc.getOperations());
 		sc.create(sjf);
-		String sxmlFile = FileUtil.makePath(generatedDir, projDir,
+		String sxmlFile = FileUtils.makePath(generatedDir, projDir,
 				"src/main/webapp/WEB-INF/services", st.getProjectMidfix(),
 				"META-INF")
 				+ "services.xml";
@@ -246,26 +255,15 @@ public class ToolWrapperCLI {
 		sxml.create(sxmlFile);
 
 		// pom.xml (maven project definition)
-		String pomPath = FileUtil.makePath(generatedDir, projDir) + "pom.xml";
+		String pomPath = FileUtils.makePath(generatedDir, projDir) + "pom.xml";
 		DeploymentCreator pomCreator = new DeploymentCreator(pomPath, service,
 				st);
 		pomCreator.createPom();
 
 		logger.info("Project created in in \""
-				+ FileUtil.makePath(generatedDir, projDir) + "\"");
+				+ FileUtils.makePath(generatedDir, projDir) + "\"");
 	}
 
-	/**
-	 * @return the default properties resource file packaged with the jar
-	 */
-	public static File getDefaultPropertiesResourceFile() {
-		try {
-			return new File(ClassLoader.getSystemResource(Constants.RESOURCE_PACKAGE + Constants.DEFAULT_PROJECT_PROPERTIES).toURI());
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			throw new IllegalStateException("Could not read packaged properties file.", e);
-		}
-	}
 	/**
 	 * Helper class that is used to set up the commons-cli options object.
 	 * 
@@ -311,16 +309,16 @@ public class ToolWrapperCLI {
 			OPTIONS.addOption(OptionBuilder.create(DEFAULT_FLG));
 			// Add option for printing defaults
 			OptionBuilder.hasArg();
-			OptionBuilder.withLongOpt(PRINT_FLG);
-			OptionBuilder.withArgName(PRINT_OPT);
-			OptionBuilder.withDescription(PRINT_OPT_ARG);
-			OPTIONS.addOption(OptionBuilder.create(PRINT_OPT_DESC));
+			OptionBuilder.withLongOpt(PRINT_OPT);
+			OptionBuilder.withArgName(PRINT_OPT_ARG);
+			OptionBuilder.withDescription(PRINT_OPT_DESC);
+			OPTIONS.addOption(OptionBuilder.create(PRINT_FLG));
 			// Add option for settings file path
 			OptionBuilder.hasArg();
-			OptionBuilder.withLongOpt(SETTINGS_FLG);
-			OptionBuilder.withArgName(SETTINGS_OPT);
-			OptionBuilder.withDescription(SETTINGS_OPT_ARG);
-			OPTIONS.addOption(OptionBuilder.create(SETTINGS_OPT_DESC));
+			OptionBuilder.withLongOpt(SETTINGS_OPT);
+			OptionBuilder.withArgName(SETTINGS_OPT_ARG);
+			OptionBuilder.withDescription(SETTINGS_OPT_DESC);
+			OPTIONS.addOption(OptionBuilder.create(SETTINGS_FLG));
 			// Add option for toolspec file path
 			OptionBuilder.hasArg();
 			OptionBuilder.withLongOpt(TOOLSPEC_OPT);

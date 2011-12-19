@@ -13,10 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package eu.scape_project.pit.util;
-
-import java.net.URI;
-//import org.apache.axis2.databinding.types.URI;
+package eu.scape_project.core.utils;
 
 /**
  * String utilities
@@ -41,18 +38,26 @@ public final class StringUtils {
      */
     public static String getFileExtension(String path) {
         int dot = path.lastIndexOf(".");
-        return path.substring(dot + 1);
+	String ret = path.substring(dot + 1);
+	// return always tmp extension if more than 3 characters
+        if(ret.length() > 3) ret = "tmp";
+	return ret;
     }
 
 
-    public static String getFilenameFromURI(URI uri, boolean preserveExtension) {
-        int slashIndex = uri.toString().lastIndexOf('/');
-        int dotIndex = uri.toString().lastIndexOf('.');
+    /**
+     * @param fullURI URI as string to parse the file name from
+     * @param preserveExtension
+     * @return the file name parsed from the URI string.
+     */
+    public final static String getFilenameFromURIString(String fullURI, boolean preserveExtension) {
+        int slashIndex = fullURI.lastIndexOf('/');
+        int dotIndex = fullURI.lastIndexOf('.');
         String filenameWithoutExtension = null;
         if (dotIndex == -1 || preserveExtension) {
-            filenameWithoutExtension = uri.toString().substring(slashIndex + 1);
+            filenameWithoutExtension = fullURI.substring(slashIndex + 1);
         } else {
-            filenameWithoutExtension = uri.toString().substring(slashIndex + 1, dotIndex);
+            filenameWithoutExtension = fullURI.substring(slashIndex + 1, dotIndex);
         }
         return filenameWithoutExtension;
     }

@@ -16,6 +16,7 @@
  */
 package eu.scape_project.xa.tw.gen;
 
+import eu.scape_project.core.utils.FileUtils;
 import eu.scape_project.xa.tw.tmpl.GenericCode;
 import eu.scape_project.xa.tw.toolspec.Dataexchange;
 import eu.scape_project.xa.tw.toolspec.Deployment;
@@ -24,7 +25,6 @@ import eu.scape_project.xa.tw.toolspec.Manager;
 import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Port;
 import eu.scape_project.xa.tw.toolspec.Service;
-import eu.scape_project.xa.tw.util.FileUtil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -35,7 +35,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -65,17 +64,20 @@ public class DeploymentCreator {
     private String defaultDeplWsdlFile;
     private String defaultWsdlFile;
 
+    /**
+     * @param pomAbsPath
+     * @param service
+     * @param st
+     */
     public DeploymentCreator(String pomAbsPath, Service service, PropertiesSubstitutor st) {
         this.pomAbsPath = pomAbsPath;
         this.service = service;
         this.st = st;
     }
 
-    public DeploymentCreator() {
-    }
-
     /**
      * Insert data types
+     * @throws GeneratorException 
      */
     public void createPom() throws GeneratorException {
         File wsdlTemplate = new File(this.pomAbsPath);
@@ -98,9 +100,6 @@ public class DeploymentCreator {
             for (Deployref dk : dks) {
                 boolean isDefaultDeployment = dk.isDefault();
                 Deployment d = (Deployment) dk.getRef();
-
-                String host = d.getHost();
-                String id = d.getId();
 
                 //<profile>
                 //    <id>deployment1</id>
@@ -229,12 +228,12 @@ public class DeploymentCreator {
                 String generatedDir = st.getGenerateDir();
                 String projMidfix = st.getProjectMidfix();
                 String projDir = st.getProjectDirectory();
-                String servDir = FileUtil.makePath(generatedDir, projDir,
+                String servDir = FileUtils.makePath(generatedDir, projDir,
                         "src/env", d.getId(), "WEB-INF/services", projMidfix,
                         "META-INF");
-                FileUtils.forceMkdir(new File(servDir));
+                org.apache.commons.io.FileUtils.forceMkdir(new File(servDir));
 
-                String sxmlFile = FileUtil.makePath(generatedDir, projDir,
+                String sxmlFile = FileUtils.makePath(generatedDir, projDir,
                         "src/main/webapp/WEB-INF/services", st.getProjectMidfix(),
                         "META-INF") + "services.xml";
 
@@ -259,7 +258,7 @@ public class DeploymentCreator {
                 deplDepServXmlCode.put("tomcat_public_procunitid", d.getIdentifier());
                 Dataexchange de = d.getDataexchange();
 
-                String accessDir = FileUtil.makePath(de.getAccessdir());
+                String accessDir = FileUtils.makePath(de.getAccessdir());
                 String accessUrl = de.getAccessurl();
 
                 
@@ -277,7 +276,7 @@ public class DeploymentCreator {
                 }
 
                 // source
-                String htmlIndexSourcePath = FileUtil.makePath(generatedDir, projDir,
+                String htmlIndexSourcePath = FileUtils.makePath(generatedDir, projDir,
                         "src/main", "webapp") + "index.html";
                 // substitution
                 GenericCode htmlSourceIndexCode = new GenericCode(htmlIndexSourcePath);
@@ -285,9 +284,9 @@ public class DeploymentCreator {
                 htmlSourceIndexCode.put("tomcat_public_host", d.getHost());
                 htmlSourceIndexCode.put("tomcat_public_http_port", port);
                 // target
-                String htmlIndexDir = FileUtil.makePath(generatedDir, projDir,"src/env", d.getId());
-                FileUtils.forceMkdir(new File(htmlIndexDir));
-                String htmlIndexTargetPath = FileUtil.makePath(generatedDir, projDir,
+                String htmlIndexDir = FileUtils.makePath(generatedDir, projDir,"src/env", d.getId());
+                org.apache.commons.io.FileUtils.forceMkdir(new File(htmlIndexDir));
+                String htmlIndexTargetPath = FileUtils.makePath(generatedDir, projDir,
                         "src/env", d.getId()) + "index.html";
                 htmlSourceIndexCode.create(htmlIndexTargetPath);
                 if (isDefaultDeployment) {
@@ -296,16 +295,16 @@ public class DeploymentCreator {
                 }
 
                 // source
-                String wsdlSourcePath = FileUtil.makePath(generatedDir, projDir,
+                String wsdlSourcePath = FileUtils.makePath(generatedDir, projDir,
                         "src/main", "webapp") + st.getProjectMidfix()+".wsdl";
                 // substitution
                 GenericCode wsdlSourceCode = new GenericCode(wsdlSourcePath);
                 wsdlSourceCode.put("tomcat_public_host", d.getHost());
                 wsdlSourceCode.put("tomcat_public_http_port", port);
                 // target
-                String wsdlDir = FileUtil.makePath(generatedDir, projDir,"src/env", d.getId());
-                FileUtils.forceMkdir(new File(wsdlDir));
-                String wsdlTargetPath = FileUtil.makePath(generatedDir, projDir,
+                String wsdlDir = FileUtils.makePath(generatedDir, projDir,"src/env", d.getId());
+                org.apache.commons.io.FileUtils.forceMkdir(new File(wsdlDir));
+                String wsdlTargetPath = FileUtils.makePath(generatedDir, projDir,
                         "src/env", d.getId()) + st.getProjectMidfix()+".wsdl";
                 wsdlSourceCode.create(wsdlTargetPath);
                 if (isDefaultDeployment) {
@@ -314,9 +313,9 @@ public class DeploymentCreator {
                 }
             }
             if(defaultDeplServicesFile != null && !defaultDeplServicesFile.isEmpty()) {
-                    FileUtils.copyFile(new File(defaultDeplServicesFile), new File(defaultServicesFile));
-                    FileUtils.copyFile(new File(this.defaultDeplHtmlFile), new File(this.defaultHtmlFile));
-                    FileUtils.copyFile(new File(this.defaultDeplWsdlFile), new File(this.defaultWsdlFile));
+            	org.apache.commons.io.FileUtils.copyFile(new File(defaultDeplServicesFile), new File(defaultServicesFile));
+            	org.apache.commons.io.FileUtils.copyFile(new File(this.defaultDeplHtmlFile), new File(this.defaultHtmlFile));
+            	org.apache.commons.io.FileUtils.copyFile(new File(this.defaultDeplWsdlFile), new File(this.defaultWsdlFile));
             }
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();

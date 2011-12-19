@@ -25,7 +25,7 @@ import eu.scape_project.core.model.ByteStreamInfo;
 public class ByteStreamCharacterisation {
     /**
      * @param is
-     * @return
+     * @return a ByteStreamInfo object containing details of the byte sequence from the java.io.InputStream parameter.
      * @throws NoSuchAlgorithmException
      * @throws IOException
      */
