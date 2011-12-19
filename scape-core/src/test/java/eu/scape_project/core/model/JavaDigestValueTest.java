@@ -43,7 +43,7 @@ public class JavaDigestValueTest {
 	 * Setup method to ensure that we have test data before the class
 	 */
 	@BeforeClass
-	public void setup() {
+	public static void setup() {
 		assertTrue("No test data found.", TEST_FILES.size() > 0);
 	}
 
