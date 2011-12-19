@@ -11,6 +11,7 @@ import java.io.StringWriter;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -79,25 +80,17 @@ public final class ByteStreamInfo {
 	}
 
 	/**
-	 * @param digest
-	 *        a digest value
-	 */
-	public void addDigest(JavaDigestValue digest) {
-		this.digests.add(digest);
-	}
-
-	/**
 	 * @return the size of the byte stream in bytes
 	 */
-	public long getLength() {
+	public final long getLength() {
 		return this.length;
 	}
 
 	/**
 	 * @return the set of digests known for this byte sequence
 	 */
-	public Set<JavaDigestValue> getDigests() {
-		return this.digests;
+	public final Set<JavaDigestValue> getDigests() {
+		return Collections.unmodifiableSet(this.digests);
 	}
 
 	/**
