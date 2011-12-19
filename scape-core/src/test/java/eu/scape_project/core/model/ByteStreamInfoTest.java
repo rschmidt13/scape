@@ -64,8 +64,8 @@ public class ByteStreamInfoTest {
 					DigestAlgorithm.SHA1,
 					DigestUtils.sha(new FileInputStream(file)));
 			// Create a byte sequence from the MD5
-			ByteStreamInfo bsiMd5 = new ByteStreamInfo(file.length(), apacheMd5);
-			ByteStreamInfo bsiSha1 = new ByteStreamInfo(file.length(),
+			ByteStreamInfo bsiMd5 = ByteStreamInfo.getInstance(file.length(), apacheMd5);
+			ByteStreamInfo bsiSha1 = ByteStreamInfo.getInstance(file.length(),
 					apacheSha1);
 			assertFalse("bsiMd5.hash() and bsiSha1.hash() should not be equal",
 					bsiMd5.hashCode() == bsiSha1.hashCode());
@@ -91,9 +91,9 @@ public class ByteStreamInfoTest {
 					DigestAlgorithm.SHA1,
 					DigestUtils.sha(new FileInputStream(file)));
 			// Create a byte sequence from the MD5
-			ByteStreamInfo bsiSha256 = new ByteStreamInfo(file.length(),
+			ByteStreamInfo bsiSha256 = ByteStreamInfo.getInstance(file.length(),
 					apacheSha256);
-			ByteStreamInfo bsiSha1 = new ByteStreamInfo(file.length(),
+			ByteStreamInfo bsiSha1 = ByteStreamInfo.getInstance(file.length(),
 					apacheSha1);
 			assertFalse(
 					"bsiSha256.equals(bsiSha1.hash()) should return false.",
@@ -131,12 +131,12 @@ public class ByteStreamInfoTest {
 			JavaDigestValue apache256Value = JavaDigestValue.getInstance(
 					DigestAlgorithm.SHA256,
 					DigestUtils.sha256(new FileInputStream(file)));
-			ByteStreamInfo bsiApache256 = new ByteStreamInfo(file.length(),
+			ByteStreamInfo bsiApache256 = ByteStreamInfo.getInstance(file.length(),
 					apache256Value);
 			JavaDigestValue javaMd5Value = JavaDigestValue.getInstance(
 					DigestAlgorithm.MD5, file);
 			ByteStreamInfo bsiFromXml = ByteStreamInfo
-					.getInstance(new ByteStreamInfo(file.length(), javaMd5Value)
+					.getInstance(ByteStreamInfo.getInstance(file.length(), javaMd5Value)
 							.toXml());
 			assertFalse("bsiApache256 and bsiFromXml should not be equal",
 					bsiApache256.equals(bsiFromXml));

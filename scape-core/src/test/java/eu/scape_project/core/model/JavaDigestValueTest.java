@@ -252,7 +252,7 @@ public class JavaDigestValueTest {
 			Set<JavaDigestValue> values = JavaDigestValue.createDigestSet(algs,
 					new FileInputStream(file));
 			for (JavaDigestValue value : values) {
-				switch (value.algorithm) {
+				switch (value.getAlgorithm()) {
 				case MD5:
 					assertArrayEquals("Digest byte arrays should be equal",
 							DigestUtils.md5(new FileInputStream(file)),

@@ -38,45 +38,30 @@ import eu.scape_project.core.api.DigestValue.DigestAlgorithm;
 @XmlRootElement
 public final class ByteStreamInfo {
 	private static final int BUFFER_SIZE = (32 * 1024);
+	/** The default MIME type string */
+	public static final String DEFAULT_MIME = "application/octet-stream";
 	@XmlAttribute
-	private long length = 0L;
+	private final long length;
 	@XmlAttribute
-	private String mimeType = "application/octet-stream";
+	private final String mimeType;
 	@XmlElement
-	private Set<JavaDigestValue> digests = new HashSet<JavaDigestValue>();
+	private final Set<JavaDigestValue> digests;
 
 	@SuppressWarnings("unused")
 	private ByteStreamInfo() {
-		/** Intentionally blank */
-	}
-
-	/**
-	 * @param length
-	 *        the length of the byte sequence in bytes
-	 * @param checksum
-	 *        details of a checksum
-	 */
-	ByteStreamInfo(long length, JavaDigestValue checksum) {
-		this.length = length;
-		this.digests.add(checksum);
-	}
-
-	/**
-	 * @param length
-	 *        the length of the byte sequence in bytes
-	 * @param checksum
-	 *        details of a checksum
-	 * @param mime
-	 *        the mime type of the item
-	 */
-	ByteStreamInfo(long length, JavaDigestValue checksum, String mime) {
-		this(length, checksum);
-		this.mimeType = mime;
+		this.length = 0L;
+		this.mimeType = null;
+		this.digests = null;
 	}
 
 	ByteStreamInfo(long length, Set<JavaDigestValue> digests) {
+		this(length, digests, DEFAULT_MIME);
+	}
+
+	ByteStreamInfo(long length, Set<JavaDigestValue> digests, String mime) {
 		this.length = length;
-		this.digests = digests;
+		this.digests = Collections.unmodifiableSet(digests);
+		this.mimeType = mime;
 	}
 
 	/**
@@ -90,13 +75,13 @@ public final class ByteStreamInfo {
 	 * @return the set of digests known for this byte sequence
 	 */
 	public final Set<JavaDigestValue> getDigests() {
-		return Collections.unmodifiableSet(this.digests);
+		return this.digests;
 	}
 
 	/**
 	 * @return the recorded MIME type of the file
 	 */
-	public String getMimeType() {
+	public final String getMimeType() {
 		return this.mimeType;
 	}
 
@@ -137,11 +122,10 @@ public final class ByteStreamInfo {
 
 	@Override
 	public boolean equals(Object obj) {
+		// Check if it's the same object
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof ByteStreamInfo))
 			return false;
 		ByteStreamInfo other = (ByteStreamInfo) obj;
 		if (this.digests == null) {
@@ -149,14 +133,12 @@ public final class ByteStreamInfo {
 				return false;
 		} else if (!this.digests.equals(other.digests))
 			return false;
-		if (this.length != other.length)
-			return false;
 		if (this.mimeType == null) {
 			if (other.mimeType != null)
 				return false;
 		} else if (!this.mimeType.equals(other.mimeType))
 			return false;
-		return true;
+		return (this.length == other.length);
 	}
 
 	/**
@@ -172,29 +154,39 @@ public final class ByteStreamInfo {
 	}
 
 	/**
+	 * @param length the length of the Byte Sequence in bytes
+	 * @param digest
+	 * @return a new ByteStreamInfo object
+	 */
+	public static ByteStreamInfo getInstance(long length, JavaDigestValue digest) {
+		Set<JavaDigestValue> digests = new HashSet<JavaDigestValue>();
+		digests.add(digest);
+		return new ByteStreamInfo(length, digests);
+	}
+	/**
 	 * @param length
 	 *        the length of the byte sequence in bytes
-	 * @param checksum
-	 *        details of a checksum
+	 * @param digests
+	 *        a set of digest algorithms and values
 	 * @return a new ByteStreamInfo instance created from the params
 	 */
 	public static ByteStreamInfo getInstance(long length,
-			JavaDigestValue checksum) {
-		return new ByteStreamInfo(length, checksum);
+			Set<JavaDigestValue> digests) {
+		return new ByteStreamInfo(length, digests);
 	}
 
 	/**
 	 * @param length
 	 *        the length of the byte sequence in bytes
-	 * @param checksum
-	 *        details of a checksum
+	 * @param digests
+	 *        details of the checksums
 	 * @param mime
 	 *        the mime type of the item
 	 * @return a new ByteStreamInfo instance created from the params
 	 */
 	public static ByteStreamInfo getInstance(long length,
-			JavaDigestValue checksum, String mime) {
-		return new ByteStreamInfo(length, checksum, mime);
+			Set<JavaDigestValue> digests, String mime) {
+		return new ByteStreamInfo(length, digests, mime);
 	}
 
 	/**
