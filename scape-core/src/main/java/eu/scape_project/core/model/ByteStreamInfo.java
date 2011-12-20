@@ -143,7 +143,7 @@ public final class ByteStreamInfo {
 
 	/**
 	 * @param xml
-	 * @return a new JavaDigestValue object serialized from XML
+	 * @return a new JavaDigestValue object serialized to XML
 	 * @throws JAXBException
 	 */
 	public static ByteStreamInfo getInstance(String xml) throws JAXBException {

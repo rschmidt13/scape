@@ -46,8 +46,6 @@ public class ByteStreamInfoTest {
 	/**
 	 * Test method for
 	 * {@link eu.scape_project.core.model.ByteStreamInfo#hashCode()}, and for
-	 * {@link eu.scape_project.core.model.ByteStreamInfo#addDigest(eu.scape_project.core.model.JavaDigestValue)}
-	 * .
 	 * 
 	 * @throws IOException
 	 * @throws URISyntaxException

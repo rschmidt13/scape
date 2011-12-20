@@ -30,6 +30,6 @@ public class ByteStreamCharacterisation {
      * @throws IOException
      */
     public ByteStreamInfo characterise(InputStream is) throws NoSuchAlgorithmException, IOException {
-	return ByteStreamInfo.getInstance(DigestAlgorithm.values(), is);
+    	return ByteStreamInfo.getInstance(DigestAlgorithm.values(), is);
     }
 }
