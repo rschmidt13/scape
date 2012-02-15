@@ -21,10 +21,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import eu.scape_project.core.api.DigestValue;
 import eu.scape_project.core.api.DigestValue.DigestAlgorithm;
 
 /**
@@ -44,8 +47,9 @@ public final class ByteStreamInfo {
 	private final long length;
 	@XmlAttribute
 	private final String mimeType;
-	@XmlElement
-	private final Set<JavaDigestValue> digests;
+	@XmlElementWrapper
+	@XmlAnyElement
+	private final Set<DigestValue> digests;
 
 	@SuppressWarnings("unused")
 	private ByteStreamInfo() {
@@ -54,11 +58,11 @@ public final class ByteStreamInfo {
 		this.digests = null;
 	}
 
-	ByteStreamInfo(long length, Set<JavaDigestValue> digests) {
+	ByteStreamInfo(long length, Set<? extends DigestValue> digests) {
 		this(length, digests, DEFAULT_MIME);
 	}
 
-	ByteStreamInfo(long length, Set<JavaDigestValue> digests, String mime) {
+	ByteStreamInfo(long length, Set<? extends DigestValue> digests, String mime) {
 		this.length = length;
 		this.digests = Collections.unmodifiableSet(digests);
 		this.mimeType = mime;
@@ -74,7 +78,7 @@ public final class ByteStreamInfo {
 	/**
 	 * @return the set of digests known for this byte sequence
 	 */
-	public final Set<JavaDigestValue> getDigests() {
+	public final Set<DigestValue> getDigests() {
 		return this.digests;
 	}
 
@@ -90,7 +94,7 @@ public final class ByteStreamInfo {
 	 * @throws JAXBException
 	 */
 	public String toXml() throws JAXBException {
-		JAXBContext jbc = JAXBContext.newInstance(ByteStreamInfo.class);
+		JAXBContext jbc = JAXBContext.newInstance(ByteStreamInfo.class, JavaDigestValue.class);
 		Marshaller m = jbc.createMarshaller();
 		m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -102,7 +106,7 @@ public final class ByteStreamInfo {
 	@Override
 	public String toString() {
 		String retVal = String.valueOf(this.length) + "|" + this.mimeType + "|";
-		for (JavaDigestValue checksum : this.digests) {
+		for (DigestValue checksum : this.digests) {
 			retVal += "[" + checksum.toString() + "]";
 		}
 		return retVal += "|";
@@ -158,8 +162,8 @@ public final class ByteStreamInfo {
 	 * @param digest
 	 * @return a new ByteStreamInfo object
 	 */
-	public static ByteStreamInfo getInstance(long length, JavaDigestValue digest) {
-		Set<JavaDigestValue> digests = new HashSet<JavaDigestValue>();
+	public static ByteStreamInfo getInstance(long length, DigestValue digest) {
+		Set<DigestValue> digests = new HashSet<DigestValue>();
 		digests.add(digest);
 		return new ByteStreamInfo(length, digests);
 	}
@@ -171,7 +175,7 @@ public final class ByteStreamInfo {
 	 * @return a new ByteStreamInfo instance created from the params
 	 */
 	public static ByteStreamInfo getInstance(long length,
-			Set<JavaDigestValue> digests) {
+			Set<? extends DigestValue> digests) {
 		return new ByteStreamInfo(length, digests);
 	}
 
@@ -185,7 +189,7 @@ public final class ByteStreamInfo {
 	 * @return a new ByteStreamInfo instance created from the params
 	 */
 	public static ByteStreamInfo getInstance(long length,
-			Set<JavaDigestValue> digests, String mime) {
+			Set<? extends DigestValue> digests, String mime) {
 		return new ByteStreamInfo(length, digests, mime);
 	}
 
@@ -222,7 +226,7 @@ public final class ByteStreamInfo {
 			length += count;
 		}
 		bis.close();
-		Set<JavaDigestValue> results = new HashSet<JavaDigestValue>();
+		Set<DigestValue> results = new HashSet<DigestValue>();
 		for (DigestAlgorithm algorithm : digests.keySet()) {
 			results.add(new JavaDigestValue(algorithm, digests.get(algorithm)
 					.digest()));
