@@ -1,12 +1,35 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>project-root</artifactId>
-    <groupId>eu.scape-project</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>pc-cc-jpylyzer-wrapper</artifactId>
-  <name>Jpylyzer Java Wrapper</name>
-  <description>A simple SAX based wrapper for the Jpylyzer tool.</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>project-root</artifactId>
+		<groupId>eu.scape-project</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>pc-cc-jpylyzer-wrapper</artifactId>
+	<name>Jpylyzer Java Wrapper</name>
+	<description>A simple SAX based wrapper for the Jpylyzer tool.</description>
+	<dependencies>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+  		<dependency>
+  			<groupId>edu.harvard</groupId>
+  			<artifactId>jhove</artifactId>
+  			<version>1.6</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>edu.harvard</groupId>
+	  		<artifactId>jhove-handler</artifactId>
+	  		<version>1.6</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>edu.harvard</groupId>
+	  		<artifactId>jhove-module</artifactId>
+	  		<version>1.6</version>
+	  		<scope>runtime</scope>
+	  	</dependency>
+	</dependencies>
 </project>

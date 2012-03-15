@@ -51,9 +51,6 @@ public class JpylyzerWrapper extends DefaultHandler {
 	private double compressionRatio = 0.0;
 	private boolean valid = false;
 
-	// Private default constructor, to be called by getInstance()
-	private JpylyzerWrapper(){this(DEFAULT_JPYLYZER_PATH);}
-
 	// Private String path constructor, called by getInstance(String), and the default constructor
 	private JpylyzerWrapper(String pathToJpylyzer) {
 		// Check that the Jpylyzer executable exists, and get version
@@ -193,7 +190,7 @@ public class JpylyzerWrapper extends DefaultHandler {
 	/**
 	 * @return a new instance of the Jpylyzer wrapper using the "default" binary location
 	 */
-	public static JpylyzerWrapper getInstance() {return new JpylyzerWrapper();}
+	public static JpylyzerWrapper getInstance() {return new JpylyzerWrapper(DEFAULT_JPYLYZER_PATH);}
 
 	/**
 	 * @param pathToJpylyzer a string path to the jpylyzer executable
@@ -239,7 +236,7 @@ public class JpylyzerWrapper extends DefaultHandler {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) {
-		JpylyzerWrapper jpylyzer = new JpylyzerWrapper();
+		JpylyzerWrapper jpylyzer = JpylyzerWrapper.getInstance();
 		for (String jp2kpath : args) {
 			try {
 				jpylyzer.validateJp2kFile(new File(jp2kpath));
