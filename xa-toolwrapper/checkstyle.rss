@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rss version="0.91">
+  <channel>
+    <title>Tool Wrapper - Checkstyle report</title>
+    <link>http://wiki.opf-labs.org/display/SP/xa-toolwrapper</link>
+    <description>Tool Wrapper - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2012</copyright>
+    <item>
+      <title>File: 26,
+             Errors: 805,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html</link>
+      <description>
+        <p>Click <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.types.IOType.java">eu/scape_project/xa/tw/gen/types/IOType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.ServiceXmlOp.java">eu/scape_project/xa/tw/tmpl/ServiceXmlOp.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.ToolspecValidator.java">eu/scape_project/xa/tw/gen/ToolspecValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  52
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.PropertiesSubstitutor.java">eu/scape_project/xa/tw/gen/PropertiesSubstitutor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  56
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.WsdlCreator.java">eu/scape_project/xa/tw/gen/WsdlCreator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  159
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.conf.Configuration.java">eu/scape_project/xa/tw/conf/Configuration.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  35
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.ResultElementCode.java">eu/scape_project/xa/tw/tmpl/ResultElementCode.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.SectionCode.java">eu/scape_project/xa/tw/tmpl/SectionCode.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.Constants.java">eu/scape_project/xa/tw/Constants.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.ServiceXml.java">eu/scape_project/xa/tw/tmpl/ServiceXml.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.util.StringConverterUtil.java">eu/scape_project/xa/tw/util/StringConverterUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.types.ErrType.java">eu/scape_project/xa/tw/gen/types/ErrType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.OperationCode.java">eu/scape_project/xa/tw/tmpl/OperationCode.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  53
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.ServiceDef.java">eu/scape_project/xa/tw/gen/ServiceDef.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.util.PropertyUtil.java">eu/scape_project/xa/tw/util/PropertyUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.GeneratorException.java">eu/scape_project/xa/tw/gen/GeneratorException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.ServiceCodeCreator.java">eu/scape_project/xa/tw/gen/ServiceCodeCreator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  76
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.OutputItemCode.java">eu/scape_project/xa/tw/tmpl/OutputItemCode.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.GenericCode.java">eu/scape_project/xa/tw/tmpl/GenericCode.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.ServiceCode.java">eu/scape_project/xa/tw/tmpl/ServiceCode.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.util.FileUtil.java">eu/scape_project/xa/tw/util/FileUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.DeploymentCreator.java">eu/scape_project/xa/tw/gen/DeploymentCreator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  93
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.Substitutor.java">eu/scape_project/xa/tw/gen/Substitutor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  43
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.gen.types.MsgType.java">eu/scape_project/xa/tw/gen/types/MsgType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.cli.ToolWrapper.java">eu/scape_project/xa/tw/cli/ToolWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  34
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://wiki.opf-labs.org/display/SP/xa-toolwrapper/checkstyle.html#eu.scape_project.xa.tw.tmpl.Code.java">eu/scape_project/xa/tw/tmpl/Code.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  27
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+
