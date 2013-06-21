@@ -1,14 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<artifactId>project-root</artifactId>
-		<groupId>eu.scape-project</groupId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
-	<modelVersion>4.0.0</modelVersion>
-  <artifactId>pt-mapred</artifactId>
-  <name>SCAPE MapReduce Wrappers</name>
-  <description>Invokes SPAPE preservation tools in on Hadoop MapReduce environments</description>
+ 	<modelVersion>4.0.0</modelVersion>
+  	<artifactId>pt-mapred</artifactId>
+  	<name>SCAPE MapReduce Wrappers</name>
+  	<version>0.0.2-SNAPSHOT</version>
+  	<groupId>eu.scape-project</groupId>
+  	<description>Invokes SPAPE preservation tools in on Hadoop MapReduce environments</description>
 	<build>
 		<plugins>
 			<plugin>
@@ -47,7 +43,13 @@
              </plugin>
 		</plugins>
 	</build>
-  	<dependencies>  	
+  	<dependencies>  
+  		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>	
 	  	<dependency>
 	    	<groupId>net.sf.jopt-simple</groupId>
 	    	<artifactId>jopt-simple</artifactId>

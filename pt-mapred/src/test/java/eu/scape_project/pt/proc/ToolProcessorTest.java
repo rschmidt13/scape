@@ -68,6 +68,10 @@ public class ToolProcessorTest extends Configured {
     public void tearDown() {
     }
 
+    @Test
+    public void testDummy() {
+    }
+    
     /**
      * Test of execute method, of class ToolProcessor.
      */
